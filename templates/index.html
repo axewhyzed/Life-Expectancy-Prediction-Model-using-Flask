@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Life Expectancy Prediction</title>
+	<style>
+		body {
+			background-color: #F5F5F5;
+			font-family: Arial, Helvetica, sans-serif;
+			font-size: 16px;
+			line-height: 1.5;
+			color: #333333;
+			margin: 0;
+			padding: 0;
+		}
+		
+		h1 {
+			margin-top: 50px;
+			text-align: center;
+			font-size: 48px;
+			color: #333333;
+		}
+
+		form {
+			margin-top: 50px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		label {
+			font-size: 18px;
+			font-weight: bold;
+			color: #333333;
+			margin-bottom: 10px;
+		}
+
+		input[type="number"], select {
+			padding: 10px;
+			border-radius: 5px;
+			border: 1px solid #cccccc;
+			margin-bottom: 20px;
+			width: 300px;
+			font-size: 16px;
+			color: #333333;
+			background-color: #F9F9F9;
+			box-shadow: 0px 1px 3px rgba(0,0,0,0.2);
+			transition: all 0.3s ease-in-out;
+		}
+
+		input[type="number"]:focus, select:focus {
+			outline: none;
+			border: 1px solid #6DA4C6;
+			box-shadow: 0px 1px 5px rgba(109,164,198,0.5);
+			background-color: #FDFDFD;
+		}
+
+		input[type="submit"] {
+			background-color: #6DA4C6;
+			color: #FFFFFF;
+			padding: 10px;
+			border: none;
+			border-radius: 5px;
+			font-size: 16px;
+			cursor: pointer;
+			box-shadow: 0px 1px 3px rgba(0,0,0,0.2);
+			transition: all 0.3s ease-in-out;
+			margin-top: 20px;
+			width: 300px;
+		}
+
+		input[type="submit"]:hover {
+			background-color: #5585A5;
+		}
+
+		p {
+			font-size: 24px;
+			font-weight: bold;
+			color: #333333;
+			margin-top: 50px;
+			text-align: center;
+		}
+		.hide {
+  			display: none;
+		}
+
+		.myDIV:hover + .hide {
+			display: block;
+  			color: red;
+		}
+		.tooltip {
+  			position: relative;
+  			display: inline-block;
+  			border-bottom: 1px dotted black;
+		}
+
+		.tooltip .tooltiptext {
+  			visibility: hidden;
+  			width: 240px;
+  			background-color: grey;
+  			color: #fff;
+  			text-align: center;
+  			border-radius: 6px;
+  			padding: 5px 0;
+
+  			/* Position the tooltip */
+  			position: absolute;
+  			z-index: 1;
+		}
+
+		.tooltip:hover .tooltiptext {
+  			visibility: visible;
+		}
+	</style>
+</head>
+<body>
+	<h1>Life Expectancy Prediction</h1>
+	<form action="{{ url_for('predict') }}" method="post">
+		<div class="tooltip"><label for="Adult Mortality">Adult Mortality:</label><span class="tooltiptext">Adult Mortality Rates per 1000 population (Deaths between ages 18 to 60)</span></div>
+		<input type="number" min=0 max=1000 name="Adult Mortality" required><br>
+
+		<div class="tooltip"><label for="Alcohol">Alcohol:</label><span class="tooltiptext">Alcohol Consumption recorded per capita for ages 15+ ( in litres )</span></div>
+		<input type="number" step="0.1" min=0 max=50 name="Alcohol" required><br>
+
+		<div class="tooltip"><label for="Percentage Expenditure">Percentage Expenditure:</label><span class="tooltiptext">Expenditure on Health as percentage of GDP per capita ( in % )</span></div>
+		<input type="number" step="0.1" min=0 max=100 name="Percentage Expenditure" required><br>
+
+		<div class="tooltip"><label for="Hepatitis B">Hepatitis B:</label><span class="tooltiptext">Hepatitis B (HepB) Immunization Coverage among 1-yr-olds ( in % )</span></div>
+		<input type="number" step="0.1" min=0 max=100 name="Hepatitis B" required><br>
+
+		<div class="tooltip"><label for="Measles">Measles:</label><span class="tooltiptext">Number of Reported cases of Measles per 1000 population</span></div>
+		<input type="number" min=0 max=1000 name="Measles" required><br>
+
+		<div class="tooltip"><label for="BMI">BMI:</label><span class="tooltiptext">Average Body Mass Index of the Country's population</span></div>
+		<input type="number" step="0.1" min=0 name="BMI" required><br>
+
+		<div class="tooltip"><label for="Polio">Polio:</label><span class="tooltiptext">Polio (Pol3) immunization coverage among 1-yr-olds ( in % )</span></div>
+		<input type="number" step="0.1" min=0 max=100 name="Polio" required><br>
+
+		<div class="tooltip"><label for="Total expenditure">Total Expenditure:</label><span class="tooltiptext">Expenditure on Health as a percentage of Total Government Expenditure ( in % )</span></div>
+		<input type="number" step="0.1" min=0 max=100 name="Total expenditure" required><br>
+
+		<div class="tooltip"><label for="Diphtheria">Diphtheria:</label><span class="tooltiptext">Diphtheria, Tetanus, Toxoid and Pertussis (DTP3) immunizations coverage among 1-yr-olds ( in % )</span></div>
+		<input type="number" step="0.1" min=0 max=100 name="Diphtheria" required><br>
+
+		<div class="tooltip"><label for="HIV/AIDS">HIV/AIDS:</label><span class="tooltiptext">HIV/AIDS Deaths per 1000 live births (0-4 yrs)</span></div>
+		<input type="number" step="0.1" min=0 max=1000 name="HIV/AIDS" required><br>
+
+		<div class="tooltip"><label for="GDP">GDP:</label><span class="tooltiptext">Gross Domestic Product per capita ( in USD )</span></div>
+		<input type="number" step="0.1" min=0 name="GDP" required><br>
+
+		<div class="tooltip"><label for="Population">Population:</label><span class="tooltiptext">Population of the Country</span></div>
+		<input type="number" min=500 name="Population" required><br>
+
+		<div class="tooltip"><label for="Income composition of resources">Income Composition of Resources:</label><span class="tooltiptext">Income Composition of Resources</span></div>
+		<input type="number" step="0.1" min=0 max=1 name="Income composition of resources" required><br>
+
+		<div class="tooltip"><label for="Schooling">Schooling:</label><span class="tooltiptext">Number of years of Schooling</span></div>
+		<input type="number" step="0.1" min=0 name="Schooling" required><br>
+
+		<input type="submit" value="Predict">
+	</form>
+
+	{% if prediction %}
+		<p>Predicted Life Expectancy: {{ prediction }}</p>
+	{% endif %}
+</body>
+</html>
