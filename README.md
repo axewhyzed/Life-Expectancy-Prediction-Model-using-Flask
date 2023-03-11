@@ -20,3 +20,5 @@ The Life_Expectancy_Data.csv file used in this project is taken from [Kaggle](ht
 # Contributing<br>
 Contributions are always welcome! Please feel free to submit a pull request or open an issue if you find a bug or have a suggestion for improvement.
 
+# Support the Project<br>
+**You can support the project by adding a star to it !**
